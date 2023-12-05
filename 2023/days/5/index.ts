@@ -81,45 +81,34 @@ async function partOne(file: string) {
 async function partTwo(file: string) {
     const time = Date.now()
     const data = await parseInput(file);
-    const result: number[] = []
+    let result: number = Number.MAX_SAFE_INTEGER
 
-    // select every odd index
-    const startSeeds = data.startSeeds.filter((_, index) => index % 2 === 0)
-    const ranges = data.startSeeds.filter((_, index) => index % 2 !== 0)
 
-    startSeeds.forEach((seed, index) => {
-        for (let i = 0; i < ranges[index]; i++) {
-            let start = seed + i
+    for (let i = 0; i < (data.startSeeds.length); i = i + 2) {
+        for (let j = 0; j < data.startSeeds[i + 1]; j++) {
+
+            let start = data.startSeeds[i] + j
 
             data.maps.forEach((map, x) => {
-
-                // console.log("\nnew Map")
                 for (let i = 0; i < map.length; i++) {
                     const souDesMap = map[i];
-                    // console.log(souDesMap)
                     if (start <= (souDesMap[1] + souDesMap[2]) && start >= souDesMap[1]) {
-                        // console.log("found " + start)
                         start = start + (souDesMap[0] - souDesMap[1])
-                        // console.log("new start " + start)
-
                         break;
-                    } else {
-
                     }
                 }
-                // console.log("result " + start)
-
             })
 
-            result.push(start)
+            if (start < result) {
+                result = start
+            }
         }
-    })
+    }
 
-    console.log(Date.now() - time)
+    console.log("Finished in " + (Date.now() - time) / 1000 / 60 + " minutes")
 
-    //Return the minimum value
-    return Math.min(...result)
+    return result
 
 }
 
-console.log(await partTwo("input.txt"));
+console.log(await partTwo("example.txt"));
