@@ -80,18 +80,18 @@ async function partOne(file: string) {
 
 async function partTwo(file: string) {
     const time = Date.now()
+    console.log("Started at " + new Date().toLocaleTimeString())
+
     const data = await parseInput(file);
     let result: number = Number.MAX_SAFE_INTEGER
-
 
     for (let i = 0; i < (data.startSeeds.length); i = i + 2) {
         for (let j = 0; j < data.startSeeds[i + 1]; j++) {
 
             let start = data.startSeeds[i] + j
-
-            data.maps.forEach((map, x) => {
-                for (let i = 0; i < map.length; i++) {
-                    const souDesMap = map[i];
+            data.maps.forEach((map) => {
+                for (let k = 0; k < map.length; k++) {
+                    const souDesMap = map[k];
                     if (start <= (souDesMap[1] + souDesMap[2]) && start >= souDesMap[1]) {
                         start = start + (souDesMap[0] - souDesMap[1])
                         break;
@@ -107,8 +107,9 @@ async function partTwo(file: string) {
 
     console.log("Finished in " + (Date.now() - time) / 1000 / 60 + " minutes")
 
-    return result
-
+    return result - 1
 }
 
-console.log(await partTwo("example.txt"));
+
+
+console.log(await partTwo("input.txt"));
