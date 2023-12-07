@@ -54,7 +54,6 @@ async function partOne(file: string) {
 
     games.forEach((game) => {
         const cards = game.cards.split("").sort((a, b) => cardMapping[b] - cardMapping[a]).join("")
-        console.log(cards)
         const score = regex.findIndex((reg) => reg.test(cards))
 
         game.score = score === -1 ? 0 : regex.length - score
@@ -81,22 +80,15 @@ async function partTwo(file: string) {
     };
 
     games.forEach((game) => {
-        let cards
-
-        if (game.cards.indexOf("J") !== -1) {
-            const cardsWithoutJ = game.cards.replaceAll("J", "").split("")
-            let mostFreq = cardsWithoutJ.sort((a, b) => cardsWithoutJ.filter(v => v === a).length - cardsWithoutJ.filter(v => v === b).length).pop();
-            cards = game.cards.replaceAll("J", (mostFreq || "J") as string).split("")
-        } else {
-            cards = game.cards.split("")
-        }
+        const cardsWithoutJ = game.cards.replaceAll("J", "").split("")
+        let mostFreq = cardsWithoutJ.sort((a, b) => cardsWithoutJ.filter(v => v === a).length - cardsWithoutJ.filter(v => v === b).length).pop();
+        const cards = game.cards.replaceAll("J", (mostFreq || "J") as string).split("")
 
         const cardsString = cards.sort((a, b) => cardMapping[b] - cardMapping[a]).join("")
         const score = regex.findIndex((reg) => reg.test(cardsString))
 
         game.score = score === -1 ? 0 : regex.length - score
-    }
-    )
+    })
 
     return calc(games, cardMapping)
 }
