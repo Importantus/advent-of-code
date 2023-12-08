@@ -1,3 +1,5 @@
+// BY https://usingmaths.com/primary/javascript/lcm.php
+
 var all_factors: number[] = []; // factors to our set_of_numbers
 var index = 0; // index into array all_factors
 /* To avoid recording the same factor multiple times
